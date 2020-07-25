@@ -37,8 +37,8 @@ def App1(request):
     if request.method == 'POST':
         student = StudentForm(request.POST, request.FILES)
         if student.is_valid():
-            id_file='core/static/core/data/cb' + str(np.random.randint(100)) + '.csv'
-         #id_file='/opt/bitnami/apps/django/django_projects/cb_v4/core/static/core/data/cb' + str(np.random.randint(100)) + '.csv'
+         #id_file='core/static/core/data/cb' + str(np.random.randint(100)) + '.csv'
+         id_file='/opt/bitnami/apps/django/django_projects/dashboard/core/static/core/data/cb' + str(np.random.randint(100)) + '.csv'
             handle_uploaded_file(request.FILES['file'], id_file)
             messages.success(request, "Archivo CSV preparado")
             return render(request,"core/home.html",{'form':student, 'id_file': id_file, 'display':'block'})
