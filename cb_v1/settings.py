@@ -130,7 +130,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = BASE_DIR+ "/core/static/core/data/"
 #STATIC_ROOT = "/opt/bitnami/apps/django/django_projects/dashboard/core/static"
-STATIC_ROOT = "/opt/bitnami/pythonPackages/django/build/lib/django/contrib/admin/static"
+STATIC_ROOT = "/dashboard/core/static_collect"
 # static files del admin original en bitnami en lugar del alias cb_v4/static original
 # Alias /cb_v4/static "/opt/bitnami/apps/django/lib/python3.6/site-packages/Django-2.1.2-py3.6.egg/django/contrib/admin/static"
 
