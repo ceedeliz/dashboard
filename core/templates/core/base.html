@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link href="{% static 'core/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'core/css/bootstrap_slider.css'%}" rel="stylesheet">
+    <link href="{% static 'core/css/styles_table.css'%}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/loading-bar.css'%}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/styles.css'%}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/colorpicker.css'%}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/layout.css'%}" />
+
+    <script src="https://unpkg.com/jspdf@1.5.3/dist/jspdf.min.js"></script>
+
+    <script src="{% static 'core/js/jquery.min.js'%}"></script>
+    <script src="{% static 'core/js/colorpicker.js'%}"></script>
+    <script src="{% static 'core/js/eye.js'%}"></script>
+    <script src="{% static 'core/js/layout.js'%}"></script>
+    <script src="{% static 'core/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'core/js/seedrandom.js'%}"></script>
+    <script src="{% static 'core/js/papaparse.js'%}"></script>
+    <script src="{% static 'core/js/bootstrap_slider.js'%}"></script>
+    <script src="{% static 'core/js/moment.min.js'%}"></script>
+    <script src="{% static 'core/js/pdf_output.js'%}"></script>
+    <script src="{% static 'core/js/jspdf.plugin.autotable.js'%}"></script>
+
+    
+    <script type="text/javascript" src="{% static 'core/js/loading-bar.js'%}"></script>
+    <script type="text/javascript" src="{% static 'core/js/csv_output.js'%}"></script>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.8.3/jquery.csv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jexcel/2.1.0/js/jquery.jexcel.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jexcel/2.1.0/css/jquery.jexcel.min.css" type="text/css" />
+ 
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<title>Herramienta de análisis Costo-Beneficio para la implementación de medidas de adaptación frente al cambio climático y/o de mitigación de emisiones de GEI</title>
+<link rel="icon" href="https://www.giz.de/static/en/images/favicon.ico" type="image/x-icon" />
+<style>
+        .logo-red{
+        text-indent: -9999px;
+        background: url("{% static 'core/img/logo.png'%}") center top no-repeat;
+        background-size: 111%;
+        height: 100px;
+    }
+    .logo-min{
+        text-indent: -9999px;
+        background: url("{% static 'core/img/logo_min.gif'%}") center top no-repeat;
+        background-size: 75%;
+        height: 110px;
+
+    }
+    .marcadorNP{
+    float: left;
+    display: block;
+    width: 50px;
+    height: 50px;
+    color: red;
+    margin-left: 5px;
+    }
+    .marcadorNP img{
+        width: 100%;
+    }
+    .header-button{
+        border: none;
+        background: #ec8181;
+        color: white;
+        padding: 10px 20px;
+        margin: 10px;
+    }
+    #display-excel{
+        margin-left: 0;
+    }
+    #my{
+       margin-bottom: 15px; 
+    }
+    .limit-box{
+        margin-bottom: 15px;
+
+    }
+</style>
+    <script>
+    function formatNumber(n, c, d, t) {
+    return (parseFloat(n)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+    </script>
+</head>
+
+<body>
+<div class="container">
+<input type="hidden" value="1000" name="test" id="test">
+
+{%block content%}
+{%endblock%}
+<div id="curve_chart_1" style="display:none; width: 900px; height: 500px"></div>
+<div id="curve_chart_1_img"></div>
+<div id="chart_fnag" style="display:none; width: 900px; height: 500px"></div>
+<div id="curve_chart_2_img"></div>
+<div id="chart_facumg1" style="display:none; width: 900px; height: 500px"></div>
+<div id="curve_chart_3_img"></div>
+<div id="curve_chart_3" style="display:none; width: 900px; height: 500px"></div>
+<div id="curve_chart_4_img"></div>
+<div id="curve_chart_5" style="display:none; width: 900px; height: 500px"></div>
+<div id="curve_chart_5_img"></div>
+      <div class="container" id="table" style="display: none;">
+        <h1>Flujo de efectivo anual</h1>
+        <input type="search" id="search" class="form-control" placeholder="filter">
+        <div id="root"></div>
+        <div class="pages"></div>
+    </div>
+
+<div class="row" id="ReportInputs" style="display: none;">
+            <div class="col-12" >
+        <h2>Generar reporte:</h2>
+    <div class="customCheckbox">
+        <div class="row">
+            <div class="col-6 text-right p-0">
+        <label>Personalizar:</label></div>
+            <div class="col-1">
+        <input type="checkbox" id="customReport" ></div>
+        </div>
+        <div id="customInputs" style="display: none;">
+          <input type="text" id="input_Proyecto" placeholder="Nombre del proyecto"><br>
+          <input type="text" id="input_Medida"  placeholder="Nombre de la medida" />
+          <input type="text" id="input_unidad" placeholder="Unidad de análisis" />
+          <input type="text" id="input_potencial" placeholder="Universo potencial" />
+          <label>Estilo:
+            <div id="colorSelector">
+                <div style="background-color: #0000ff">
+                </div>
+            </div>
+          </label>
+            <br>
+        <label>Link directo de la imagen para el encabezado del PDF (Solo admite formato PNG)</label>
+          <input type="text" id="input_img" placeholder="Link" value="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQN8tviWo3LRXKekp9m0GJeb60xWHxjXd7Q-l6PHkMVOy4zS5Ng" />
+          <input type="text" id="input_autor" placeholder="Autor" />
+         <textarea id="input_descripcion" placeholder="Descripción de la medida"></textarea>
+         <textarea id="input_interpretacion" placeholder="Interpretación"></textarea>
+         <textarea id="input_recomendaciones" placeholder="Recomendaciones"></textarea>
+       </div>
+        </div>
+        <div id="pdfButton">
+        <input type="button" id="generatePDF" value="Generar PDF"/>
+</div>
+    </div>
+    
+<div class="col-md-6">
+    <div class="cont-cafe">
+        <a href="#save_data" id="save_data">Guardar resultados</a>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="cont-cafe">
+       <a href="#save_flow" id="save_flow"> Guardar Flujo de efectivo</a>
+    </div>
+</div>
+    
+</div>
+</div>
+<!-- table script -->
+    <script src="{% static 'core/js/table-sortable.js' %}"></script>
+<script src="{% static 'core/js/script.js' %}"></script>
+
+</body>
+<script>
+    var res_img="";
+
+    var color_value ={
+        r: 178,
+        g: 12,
+        b: 20,
+    };
+    var elasticidad= [];
+    var punto_de_quiebre= [];
+
+      google.charts.load('current', {'packages':['corechart']});
+function marcador_pos_neg(value,input) {
+    if(value > 0 ){
+        $(input).html("<img src= 'http://www.ecopoliticas.com/img/verde.png'> ");
+       }else{
+        $(input).html("<img src= 'http://www.ecopoliticas.com/img/rojo.png'> ");
+       }
+
+}
+function marcador_reg(value,input) {
+    if(value > 0 && value < 25 ){
+        $(input).html("<img src= 'http://www.ecopoliticas.com/img/rojo.png'> ");
+
+       }
+    if (value > 50 && value < 75){
+        $(input).html("<img src= 'http://www.ecopoliticas.com/img/amarillo.png'> ");
+       }
+    if(value > 75 ){
+        $(input).html("<img src= 'http://www.ecopoliticas.com/img/verde.png'> ");
+
+    }
+}
+function drawChart_1(resp) {
+      $("#curve_chart_1").show();
+
+        var data = google.visualization.arrayToDataTable([
+          ['t_desc', 'VPN Lím. inferior', 'VPN Lím. superior', 'VPN Promedio'],
+          [resp.t_desc[0],  resp.ymin[0],      resp.ymax[0],  resp.ymean[0]],
+          [resp.t_desc[1],  resp.ymin[1],      resp.ymax[1],  resp.ymean[1]],
+          [resp.t_desc[2],  resp.ymin[2],      resp.ymax[2],  resp.ymean[2]]
+        ]);
+
+        var options = {
+          title: "",
+          curveType: 'function',
+          colors: ['red','green','blue'],
+          legend: { position: 'bottom' },
+          hAxis: {
+          title: 'Tasa de descuento'},
+        vAxis: {
+          title: 'Valor Presente Neto(Pesos)'},
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart_1'));
+
+
+        var chart_div = document.getElementById('curve_chart_1');
+        var chart_div_img = document.getElementById('curve_chart_1_img');
+
+      // Wait for the chart to finish drawing before calling the getImageURI() method.
+      google.visualization.events.addListener(chart, 'ready', function () {
+        //console.log(chart.getImageURI());
+      }); 
+
+chart.draw(data, options);
+pdf_graph1 = chart.getImageURI();
+document.getElementById('curve_chart_1_img').outerHTML = '<a href="' + chart.getImageURI() + '" download>Descargar Gráfica</a>';
+}
+function drawChart_fnag(resp) {
+        $("#chart_fnag").show();
+
+      var years = resp.x_anio;
+      var sales = resp.flujo_mean;
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Años');
+      data.addColumn('number', 'Flujo');
+
+    for(i = 0; i < years.length; i++){
+        data.addRow([(years[i]+1).toString(), Number(sales[i])]);
+    }
+     var options = {
+          title: "",
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          hAxis: {
+          title: 'Año'},
+        vAxis: {
+          title: 'Flujo de efectivo(Pesos/Año)'}
+        };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_fnag'));
+      chart.draw(data, options);
+document.getElementById('curve_chart_2_img').outerHTML = '<a href="' + chart.getImageURI() + '" download>Descargar Gráfica</a>';
+pdf_graph2 = chart.getImageURI();
+
+}
+function drawChart_facumg1(resp) {
+                $("#chart_facumg1").show();
+
+      var years = resp.x_anio;
+      var sales = resp.facum;
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Años');
+      data.addColumn('number', 'Flujo');
+
+    for(i = 0; i < years.length; i++){
+        data.addRow([(years[i]+1).toString(), Number(sales[i])]);
+    }
+     var options = {
+          title: "",
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          hAxis: {
+          title: 'Año'},
+        vAxis: {
+          title: 'Flujo Acumulado(Pesos/año)'}
+        };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_facumg1'));
+      chart.draw(data, options);
+      document.getElementById('curve_chart_3_img').outerHTML = '<a href="' + chart.getImageURI() + '" download>Descargar Gráfica</a>';
+    pdf_graph3 = chart.getImageURI();
+
+}
+
+    function drawChart_3(resp) {
+        $("#curve_chart_3").show();
+        var data = google.visualization.arrayToDataTable([
+          ['t_desc', 'VPN Lím. inferior', 'VPN Lím. superior', 'VPN Promedio', 'VPN pesimista', 'VPN neutral','VPN optimista'],
+          [resp.t_desc[0],  resp.ymin[0], resp.ymax[0], resp.ymean[0],  null,  null,  null],
+          [resp.t_desc[1],  resp.ymin[1], resp.ymax[1], resp.ymean[1],  null,  null,  null],
+          [resp.t_desc[2],  resp.ymin[2], resp.ymax[2], resp.ymean[2],  null,  null,  null],
+
+          [resp.t_desc[1],  null, null, null,  parseInt(resp.vpn_pesimista),parseInt(resp.vpn_base),parseInt(resp.vpn_optimista)],
+        ]);
+
+        var options = {
+          title: "",
+          curveType: 'function',
+          colors: ['gray','gray','gray','red', 'blue', 'green'],
+          legend: { position: 'bottom' },
+          hAxis: {
+          title: 'Tasa de descuento'},
+          pointSize: 20,
+          series: {
+                4: { type: 'scatter' }
+            },
+
+        vAxis: {
+          title: 'Valor Presente Neto(Pesos)'}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('curve_chart_3'));
+
+        chart.draw(data, options);
+        document.getElementById('curve_chart_4_img').outerHTML = '<a href="' + chart.getImageURI() + '" download>Descargar Gráfica</a>';
+        pdf_graph4 = chart.getImageURI();
+
+      }
+function drawChart_dens(resp) {
+    $("#curve_chart_5").show();
+    var axisX = resp.pdf_array_x;
+    var axisZ = resp.pdf_array_z;
+    var dens = resp.pdf_array_dens;
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Años');
+    data.addColumn('number', 'Flujo');
+    data.addColumn('number', 'Flujo_2');
+    console.log("axisX.length");
+    console.log(parseInt(axisX.length));
+    var min_x = (parseInt(axisX.length/20));
+    var max_x = (parseInt((axisX.length/20)*19));
+    for(i = 0; i < axisX.length; i++){
+        var prom = null;
+        if(i > min_x && i < max_x){
+            prom = Number(dens[i]);
+           }
+        data.addRow([(axisX[i]+1).toString(), Number(dens[i]), prom]);
+    }
+     var options = {
+          title: "",
+          curveType: 'function',
+         colors: ["orange","blue"],
+          legend: { position: 'bottom' },
+          hAxis: {
+          title: resp.campana},
+        vAxis: {
+          title: 'Densidad'}
+        };
+        
+      var chart = new google.visualization.LineChart(document.getElementById('curve_chart_5'));
+      chart.draw(data, options);
+      document.getElementById('curve_chart_5_img').outerHTML = '<a href="' + chart.getImageURI() + '" download>Descargar Gráfica</a>';
+    pdf_graph5 = chart.getImageURI();
+
+}
+
+
+
+//helpers.R
+
+var td1 = $(".td1").val();
+var td2 = $(".td2").val();
+var td3= $(".td3").val();
+
+var fecha_inicio = $(".fecha_inicio").val();
+var rondas = $(".rondas").val();
+var custom_range_1 = $("#customRange1").val();
+var custom_range_2 = $("#customRange2").val();
+var custom_range_3 = $("#customRange3").val();
+var tirb = $(".tirb").val();
+var sep1 = $(".sep1").val();
+var sep2 = $(".sep2").val();
+var sep3 = $(".sep3").val();
+var quote1 = $(".quote1").val();
+var quote2 = $(".quote2").val();
+var quote3 = $(".quote3").val();
+var id_file =  "{{ id_file }}";
+//alert (id_file);
+//alert("{{ projects }}");
+
+//server.R
+
+$("#ex1").slider();
+$("#ex1").on("slide", function(slideEvt) {
+	$("#ex1SliderVal").text(slideEvt.value);
+});
+$("#ex2").slider();
+$("#ex2").on("slide", function(slideEvt) {
+	$("#ex2SliderVal").text(slideEvt.value);
+});
+
+$("#ex3").slider();
+$("#ex3").on("slide", function(slideEvt) {
+	$("#ex3SliderVal").text(slideEvt.value);
+});
+
+
+
+
+$(document).ready(function(){
+ //fechas
+ //(int(cb_fecha_ano),fechas[cb_fecha_mes],1)
+
+$("#save_images").click(function(){
+
+});
+$("#myItem1").hide();
+var beauty_date = "2016-ene";
+var fechas={
+    ene: 01,
+    feb: 02,
+    mar: 03,
+    abr: 04,
+    may: 05,
+    jun: 06,
+    jul: 07,
+    ago: 08,
+    sep: 09,
+    oct: 10,
+    nov: 11,
+    dic: 12
+};
+var formato_fecha_1 = new RegExp('^[1-9]\-(ene|feb|mar|abr|may|jun|jul|ago|sep|oct|nov|dic)\-[1-3][0-9][0-9][0-9]$');
+
+var formato_fecha_2 = new RegExp ('^(ene|feb|mar|abr|may|jun|jul|ago|sep|oct|nov|dic)\-[1-3][0-9][0-9][0-9]$');
+
+var formato_fecha_3 = new RegExp('^[1-9][0-9]\-(ene|feb|mar|abr|may|jun|jul|ago|sep|oct|nov|dic)\-[1-3][0-9][0-9][0-9]$');
+
+// el formato de estas es (yyy-mm-dd)
+var fecha_base = moment('1900-1-1');
+// valdiador de fecha
+/*
+$("#fecha_inicio").change(function(){
+
+    var fecha_input = ($("#fecha_inicio").val());
+    var formatear_fecha = fecha_input.split("-");
+    if(formato_fecha_1.test(fecha_input)){
+            alert("el formato incluye el dia");
+            beauty_date = formatear_fecha[0]+"-"+fechas[formatear_fecha[1]]+"-"+formatear_fecha[2];
+            console.log(beauty_date);
+    }else if(formato_fecha_3.test(fecha_input)){
+            alert("el formato es incluye a partir del decimo dia");
+            console.log(fecha_input);
+    }else if(formato_fecha_2.test(fecha_input)){
+            alert("el formato solo contiene mes y año");
+            beauty_date =  formatear_fecha[1]+"-"+fechas[formatear_fecha[0]];
+            console.log(beauty_date);
+    }else{
+            alert("el formato es invalido");
+            console.log(fecha_input);
+    }
+}); */
+$(document).on('submit', '#calc_tir', function(e){
+    var pdf_table = null;
+    var pdf_graph1 = null;
+    var pdf_graph2 = null;
+    var pdf_graph3 = null;
+    var pdf_graph4 = null;
+    var pdf_graph5 = null;
+    var app_string = "";
+    e.preventDefault();
+    $("#myItem1").show(100);
+    var bar1 = new ldBar("#myItem1");
+    var bar2 = document.getElementById('myItem1').ldBar;
+    bar1.set(50);
+
+        $.ajax({
+        type: 'POST',
+        url:"/calc_tir/",
+        data:{
+            fecha_inicio:beauty_date,
+            rondas:$("#rondas").val(),   csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val()
+        },
+
+        datatype: "json",
+        success:function(resp){
+            $("#view_vpn_social_1").html(resp.vpn_social_1+"+/-");
+                bar1.set(100);
+                $(function(){
+               function hide_bar(){
+                 $("#myItem1").hide();
+               };
+                    window.setTimeout( hide_bar, 3000 ); // 5 seconds
+          });
+
+        },
+    })
+
+});
+
+$(document).on('submit', '#execute_method', function(e){
+    e.preventDefault();
+    $("#myItem1").show(100);
+    var bar1 = new ldBar("#myItem1");
+    var bar2 = document.getElementById('myItem1').ldBar;
+    bar1.set(50);
+
+    var tir_val = false;
+    var separador = "coma";
+    var comillar = "ninguna"
+    if($("#tir").is(":checked")){
+        tir_val = true;
+    }
+    if($("#sep1").is(":checked")){
+        separador = "coma";
+    }
+    if($("#sep2").is(":checked")){
+        separador = "punto";
+    }
+    if($("#sep3").is(":checked")){
+        separador = "tab";
+    }
+    if($("#quote1").is(":checked")){
+        comillar = "ninguna";
+    }
+    if($("#quote2").is(":checked")){
+        comillar = "doble";
+    }
+    if($("#quote3").is(":checked")){
+        comillar = "simple";
+    }
+    if(tir_val){
+        tir=1;
+    }else{
+        tir=0
+    }
+    $.ajax({
+        type: 'POST',
+        url:"/cb_final/",
+        data:{
+            fecha_inicio:$("#fecha_inicio").val(),
+            rondas:$("#rondas").val(),
+            tasa_des_min:$("#ex1").val(),
+            tasa_des_base:$("#ex2").val(),
+            tasa_des_max:$("#ex3").val(),
+            tir:tir,
+            monte_carlo:$("#monte_carlo").val(),
+            file: "en caso de ser necesario",
+            separador: separador,
+            comillar: comillar,
+            id_file: id_file,
+            csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val()
+        },
+
+        datatype: "json",
+        success:function(resp){
+            pdf_table = resp;
+            
+            $(".vpn_social_title_1").html("VPN SOCIAL (" + ($("#ex2SliderVal").html()* 100) + "%)");
+            $(".vpn_externalidades_title").html("VPN de externalidades (" + ($("#ex2SliderVal").html()* 100) + "%)");
+            $(".vpn_social_title_2").html("VPN SOCIAL (" + ($("#ex1SliderVal").html()* 100) + "%)");
+            $(".vpn_social_title_3").html("VPN SOCIAL (" + ($("#ex3SliderVal").html()* 100) + "%)");
+            $(".costos_title").html("Costos (" + ($("#ex2SliderVal").html()* 100) + "%)");
+            $(".vpn_priv_title_1").html("VPN privado (" + ($("#ex2SliderVal").html()* 100) + "%)");
+            $(".beneficios_title").html("Beneficios (" + ($("#ex2SliderVal").html()* 100) + "%)");
+            $(".icb_title").html("ICB (" + ($("#ex2SliderVal").html()* 100) + "%)");
+            $(".fae_title_1").html("FAE (" + ($("#ex1SliderVal").html()* 100) + "%)");
+            $(".fae_title_2").html("FAE (" + ($("#ex2SliderVal").html()* 100) + "%)");
+            $(".fae_title_3").html("FAE (" + ($("#ex3SliderVal").html()* 100) + "%)");
+            $(".vpn_opt_title").html("VPN optimista (" + ($("#ex2SliderVal").html()* 100) + "%)");
+            $(".vpn_base_title").html("VPN base (" + ($("#ex2SliderVal").html()* 100) + "%)");
+            $(".vpn_pes_title").html("VPN pesimista (" + ($("#ex2SliderVal").html()* 100) + "%)");
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+            var fae_tiempo = " Pesos/año";
+             $("#view_vpn_social_1").html(formatNumber(resp.vpn_social_1)+ " pesos" +" (+/- " +formatNumber(resp.vpn_social_1_err) +" )");
+             $("#view_vpn_social_2").html(formatNumber(resp.vpn_social_2)+ " pesos" + " (+/- " + formatNumber(resp.vpn_social_2_err) +" )");
+            var pdf_array_x = [];
+            var pdf_array_z = [];
+            var pdf_array_dens = [];
+            console.log("vpn1_base");
+            console.log(formatNumber(resp.vpn_social_1));
+            console.log(formatNumber(resp.vpn_social_1_std))
+/*
+            for(var i=0; i<14; i++){
+                if(i==0){
+                    pdf_array_x[i] = parseFloat(formatNumber(resp.vpn_social_1));
+                }
+                pdf_array_x.unshift(Math.round((pdf_array_x[0]-formatNumber(resp.vpn_social_1_std)/5)*100)  /100);
+                pdf_array_x.push(Math.round((pdf_array_x[pdf_array_x.length-1]+formatNumber(resp.vpn_social_1_std)/5)*100)/100);
+            }
+            for(var i=0; i<pdf_array_x.length; i++){
+                pdf_array_z.push(parseFloat(((pdf_array_x[i]-resp.vpn_social_1)/resp.vpn_social_1_std).toFixed(1)));
+                pdf_array_dens.push(gaussianRandom(pdf_array_z[i], 0));
+            }
+  */          
+            console.log(pdf_array_x);
+            console.log(pdf_array_z);
+            console.log(pdf_array_dens);
+             $("#view_vpn_social_3").html(formatNumber(resp.vpn_social_3) + " pesos" + " (+/- " + formatNumber(resp.vpn_social_3_err) +" )");
+             $("#view_vpn_social_1_std").html("Desv. Est: " +formatNumber(resp.vpn_social_1_std));
+             $("#view_vpn_social_2_std").html("Desv. Est: " +formatNumber(resp.vpn_social_2_std));
+             $("#view_vpn_social_3_std").html("Desv. Est: " +formatNumber(resp.vpn_social_3_std));
+             $("#view_vpn_externalidades").html(formatNumber(resp.VPN_soc)+ " pesos" + " (+/- " + formatNumber(resp.VPN_soc_err) + ")" + "<br> Desv. Est: " + formatNumber(resp.VPN_soc_sig)) ;
+             $("#view_vpn_privado").html(formatNumber(Math.abs(resp.vpn_privado)) + " pesos" + " (+/- " + formatNumber(Math.abs(resp.VPN_priv_err)) + ")" + "<br> Desv. Est: " + formatNumber(resp.VPN_priv_sig) );
+             $("#costos").html(formatNumber(resp.costos)+ " pesos" +  " (+/- " + formatNumber(resp.costos_err) + ")" + "<br> Desv. Est: " + formatNumber(resp.costos_sd));
+             $("#view_beneficios").html(formatNumber(resp.beneficios)+ " pesos" + " (+/- " +  formatNumber(resp.beneficios_err) +")" +  "<br> Desv. Est: " + formatNumber(resp.beneficios_sd));
+             $("#view_icb").html(formatNumber(resp.icb) + " pesos/peso invertido <br> (+/- " +  formatNumber(resp.icb_err) +")" +  "<br> Desv. Est: " + formatNumber(resp.icb_sd));
+             $("#view_fae_1").html(formatNumber(resp.fae_1)+ fae_tiempo + " (+/- " + formatNumber(resp.fae1_err) + ")" + "<br> Desv. Est: " + formatNumber(resp.fae2_sd)  );
+             $("#view_fae_2").html(formatNumber(resp.fae_2)+ fae_tiempo + " (+/- " + formatNumber(resp.fae2_err) + ")" + "<br> Desv. Est: " + formatNumber(resp.fae2_sd)  );
+             $("#view_fae_3").html(formatNumber(resp.fae_3)+ fae_tiempo + " (+/- " + formatNumber(resp.fae3_err) + ")" + "<br> Desv. Est: " + formatNumber(resp.fae3_sd)  );
+             $("#plazo_err").html(resp.plazo + " años " + " (+/- "+resp.plazo_err +   ")<br> Desv. Est: " + formatNumber(resp.plazo_sd));
+             $("#view_ice").html(formatNumber(resp.ice)+ " pesos/" + resp.unidad_medida );
+             $("#view_ice_err").html("(+/- " + formatNumber(resp.ice_err) + ")" +  "<br> Desv. Est: " + formatNumber(resp.ice_sd));
+             $("#view_cantidad_ice").html(formatNumber(resp.cantidad_ice) + " " +  resp.unidad_medida + "<br> (+/- " + formatNumber(resp.cantidad_ice_err) + ")" +  "<br> Desv. Est: " + formatNumber(resp.cantidad_ice_sd));
+             $("#view_vpn_pesimista").html(formatNumber(resp.vpn_pesimista)+ " pesos" + "<br> p(vpn>vpn pesim)= " + resp.vpn_pesimista_R+ "%");
+             $("#view_vpn_base").html(formatNumber(resp.vpn_base)+ " pesos" + " <br>p(vpn>vpn prom)= " + resp.vpn_base_R + "%");
+            $("#view_vpn_optimista").html(formatNumber(resp.vpn_optimista)+ " pesos" + " <br>p(vpn>vpn_ optim)= " + resp.vpn_optimista_R + "%");
+                $("#view_tir").html((resp.tir_2 * 100) + "%");
+                $("#view_tirs").html("(" + (resp.tir * 100) + "," + (resp.tir_3 *100) +")");
+             $("#view_casos_vpn_positivos").html(resp.casos_positivos + "%");
+                if(resp.app == 1){
+                    $(".view_app_1").addClass("app_selected");
+                    app_string="App";
+                }
+                if(resp.app == 2){
+                    $(".view_app_2").addClass("app_selected");
+                    app_string="Regulación/Impuesto";
+                }
+                if(resp.app == 3){
+                    $(".view_app_3").addClass("app_selected");
+                    app_string="Bien público/subsidio";
+                }
+                if(resp.app == 4){
+                    $(".view_app_4").addClass("app_selected");
+                    app_string="Inacción";
+                }
+                drawChart_1(resp);
+                drawChart_3(resp);
+                drawChart_fnag(resp);
+                drawChart_facumg1(resp);
+                drawChart_dens(resp);
+                fillTable(resp);
+                $("#ReportInputs").show();                
+
+                $("#table").show();
+                bar1.set(100);
+                $(function(){
+               function hide_bar(){
+                 $("#myItem1").hide();
+               };
+              marcador_pos_neg(parseInt(resp.vpn_social_1),".marcadorNP_vpn1");
+              marcador_pos_neg(parseInt(resp.vpn_social_2),".marcadorNP_vpn2");
+              marcador_pos_neg(parseInt(resp.vpn_social_3),".marcadorNP_vpn3");
+              marcador_pos_neg(parseInt(resp.vpn_externalidades),".marcadorNP_extern");
+              marcador_pos_neg(parseInt(resp.vpn_privado),".marcadorNP_priv");
+              marcador_pos_neg(parseFloat(resp.icb),".marcadorNP_icb");
+              marcador_pos_neg(parseInt(resp.fae_1),".marcadorNP_fae1");
+              marcador_pos_neg(parseInt(resp.fae_2),".marcadorNP_fae2");
+              marcador_pos_neg(parseInt(resp.fae_3),".marcadorNP_fae3");
+              marcador_pos_neg(parseInt(resp.vpn_pesimista),".marcadorNP_pes");
+              marcador_pos_neg(parseInt(resp.vpn_base),".marcadorNP_base");
+              marcador_pos_neg(parseInt(resp.vpn_optimista),".marcadorNP_opt");
+              marcador_pos_neg(parseFloat(resp.tir),".marcadorNP_tir");
+              marcador_reg(parseInt(resp.casos_positivos),".marcadorNP_casos");
+                $("#save_data").click(function(){
+                   var td1 = $("#ex1").val();
+                   var td2 = $("#ex2").val();
+                   var td3 = $("#ex3").val();
+                    
+                    download_csv(resp,td1,td2,td3);
+                 });
+                custom_img();
+               window.setTimeout( hide_bar, 3000 ); // 5 seconds
+          });
+
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("Ha ocurrido un error, Recargue la pagina y Verifique el archivo");
+        },
+
+    })
+});
+    $("#id_file").change(function(){
+         $(this).parse({
+                config: {
+                    delimiter: "auto",
+                    complete: displayHTMLTable,
+                },
+                before: function(file, inputElem)
+                {
+                    //console.log("Parsing file...", file);
+                },
+                error: function(err, file)
+                {
+                    //console.log("ERROR:", err, file);
+                },
+                complete: function()
+                {
+                    //console.log("Done with all files");
+                }
+            });
+    });
+
+function displayHTMLTable(results){
+    var table = "<table class='table'>";
+    var data = results.data;
+
+    for(i=0;i<data.length;i++){
+        table+= "<tr>";
+        var row = data[i];
+        var cells = row.join(",").split(",");
+
+        for(j=0;j<cells.length;j++){
+            table+= "<td>";
+            table+= cells[j];
+            table+= "</th>";
+        }
+        table+= "</tr>";
+    }
+    table+= "</table>";
+    $("#table_input").html(table);
+}
+
+});
+// GENERAR REPORTE PDF -----------------
+
+$("#customReport").click(function (){
+    $("#customInputs").toggle(200);
+});
+
+</script>
+<script>
+document.getElementById("my").addEventListener("contextmenu", function(){
+       return false;
+});
+
+$(function () {
+  $('.jexcel-header').bind('contextmenu',function(e){
+    e.preventDefault();
+    return false;
+  });
+  $('.jexcel-content').bind('contextmenu',function(e){
+    e.preventDefault();
+   return false;
+
+  });
+});
+data = [    
+['CB01','Económico','Positivo','Ingresos','Venta de productos agrícolas','','Anual','ton','10','8','12','3000','2500','3500','ene-2016','dic-2035','','Logarítmica','0.1','0.16421443','1'],
+['CB02','Económico','Negativo','Costos','Costos totales','','Anual','lote','1','1','1','5000','6000','4000','ene-2016','dic-2035','','Lineal','','',''],
+['CB03','Económico','Negativo','Inversión Inicial','Inversión inicial','','Inicial (única vez)','lote','1','1','1','15000','20000','12000','ene-2016','dic-2035','','Lineal','','',''],
+['CB04','Ambiental','Positivo','Externalidades','Captura de carbono','1','Anual','tC','8','8','8','355','355','355','ene-2016','dic-2035','1','Bass (Modelo de difusión)','0.0025','0.02','0']
+];
+dataRow = [
+['CB04','Ambiental','Positivo','Externalidades','Captura de carbono','1','Anual','tC','8','8','8','355','355','355','ene-2016','dic-2035','1','Bass (Modelo de difusión)','0.0025','0.02','0']    
+]
+headers = [ 'ID','Tipo','Impacto','categoria','Detalles','prop','Frecuencia','Unidad_de_medida','Cantidad','Cant_pesimista','Cant_optimista','p','p_pes','p_opt','fecha_inicio','fecha_final','externalidad','modelo','coef1','coef2','coef3' ];
+    
+colSizes =  [ 60, 120, 100, 150, 250, 80, 180, 80, 80, 80,80, 80, 80, 80, 180, 180, 100, 240, 80, 80 ];
+
+columnas = [{ type: 'text' },
+            { type: 'dropdown', source:['Económico','Ambiental','Social'] },
+            { type: 'dropdown', source:['Positivo','Negativo'] },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'dropdown', source:['Inicial (única vez)', 'Mensual','Anual','Cada mes','Cada 2 meses','Cada 3 meses','Cada 4 meses','Cada 5 meses','Cada 6 meses', 'Cada año', 'Cada 2 años', 'Cada 3 años', 'Cada 4 años', 'Cada 5 años', 'Cada 6 años'] },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'text' },
+            { type: 'dropdown', source:[0,1] },
+            { type: 'dropdown', source:['Lineal', 'Logarítmica','Taylor','Exponencial','Bass (Modelo de difusión)'] },
+            { type: 'text' },
+            { type: 'text' }
+                 ];
+
+$('#my').jexcel({ data:data,
+                 csvHeaders:true,
+                 colHeaders:headers ,
+                 colWidths:colSizes,
+                 columns: columnas,
+                 tableOverflow:true,
+                 tableWidth:"1200px"
+                });
+$('#local-download').on('click', function () {
+    $('#my').jexcel('download');
+});
+var rowNumber = 4;
+$('#local-add-button').on('click', function () {
+rowNumber++;
+$('#my').jexcel('insertRow', 1);
+$('#my').jexcel('setValue', 'A'+rowNumber,"CB04");
+$('#my').jexcel('setValue', 'B'+rowNumber,"Ambiental");
+$('#my').jexcel('setValue', 'C'+rowNumber,"Positivo");
+$('#my').jexcel('setValue', 'D'+rowNumber,"Externalidades");
+$('#my').jexcel('setValue', 'E'+rowNumber,"Captura de carbono");
+$('#my').jexcel('setValue', 'F'+rowNumber,"");
+$('#my').jexcel('setValue', 'G'+rowNumber,"Anual");
+$('#my').jexcel('setValue', 'H'+rowNumber,"tC");
+$('#my').jexcel('setValue', 'I'+rowNumber,"8");
+$('#my').jexcel('setValue', 'J'+rowNumber,"8");
+$('#my').jexcel('setValue', 'K'+rowNumber,"8");
+$('#my').jexcel('setValue', 'L'+rowNumber,"355");
+$('#my').jexcel('setValue', 'M'+rowNumber,"355");
+$('#my').jexcel('setValue', 'N'+rowNumber,"355");
+$('#my').jexcel('setValue', 'O'+rowNumber,"ene-2016");
+$('#my').jexcel('setValue', 'P'+rowNumber,"dic-2035");
+$('#my').jexcel('setValue', 'Q'+rowNumber,"");
+$('#my').jexcel('setValue', 'R'+rowNumber,"Lineal");
+$('#my').jexcel('setValue', 'S'+rowNumber,"");
+$('#my').jexcel('setValue', 'T'+rowNumber,"");
+});
+$('#display-excel').on('click', function () {
+    $('.limit-box').toggle(100);
+});
+  $('.limit-box').hide();
+</script>
+<script>
+    $("#input_img").change(function(){
+   custom_img();     
+});
+$('#generatePDF').on('click', function () {
+    custom_img();
+   generate_pdf(pdf_table);
+    
+});
+    
+</script>    
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link href="{% static 'core/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'core/css/bootstrap_slider.css'%}" rel="stylesheet">
+    <link href="{% static 'core/css/styles_table.css'%}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/loading-bar.css'%}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/styles.css'%}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/colorpicker.css'%}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/layout.css'%}" />
+
+    <script src="https://unpkg.com/jspdf@1.5.3/dist/jspdf.min.js"></script>
+
+    <script src="{% static 'core/js/jquery.min.js'%}"></script>
+    <script src="{% static 'core/js/colorpicker.js'%}"></script>
+    <script src="{% static 'core/js/eye.js'%}"></script>
+    <script src="{% static 'core/js/layout.js'%}"></script>
+    <script src="{% static 'core/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'core/js/seedrandom.js'%}"></script>
+    <script src="{% static 'core/js/papaparse.js'%}"></script>
+    <script src="{% static 'core/js/bootstrap_slider.js'%}"></script>
+    <script src="{% static 'core/js/moment.min.js'%}"></script>
+    <script src="{% static 'core/js/pdf_output.js'%}"></script>
+    <script src="{% static 'core/js/jspdf.plugin.autotable.js'%}"></script>
+
+    
+    <script type="text/javascript" src="{% static 'core/js/loading-bar.js'%}"></script>
+    <script type="text/javascript" src="{% static 'core/js/csv_output.js'%}"></script>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.8.3/jquery.csv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jexcel/2.1.0/js/jquery.jexcel.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jexcel/2.1.0/css/jquery.jexcel.min.css" type="text/css" />
+ 
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<title>Herramienta de análisis Costo-Beneficio para la implementación de medidas de adaptación frente al cambio climático y/o de mitigación de emisiones de GEI</title>
+<link rel="icon" href="https://www.giz.de/static/en/images/favicon.ico" type="image/x-icon" />
+<style>
+    body{
+        background: #8080800f;
+    }
+    .container{
+        background: white;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="row">
+      <div class="col-md-12">
+          <h1 class=" my-5">Dashboard</h1>
+          <div class="row">
+              <div class="col-md-4 my-3">
+                <div class="card" style="width: 100%;">
+                  <img class="card-img-top" src="https://getuikit.com/v2/docs/images/placeholder_600x400.svg" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">Análisis Costo beneficio</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{% url 'App_1' %}" class="btn btn-primary">Ir al sitio</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 my-3">
+                <div class="card" style="width: 100%;">
+                  <img class="card-img-top" src="https://getuikit.com/v2/docs/images/placeholder_600x400.svg" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">funcion py simple</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{% url 'App_2' %}" class="btn btn-primary">Ir al sitio</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 my-3">
+                <div class="card" style="width: 100%;">
+                  <img class="card-img-top" src="https://getuikit.com/v2/docs/images/placeholder_600x400.svg" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">Base de datos simple</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{% url 'App_3' %}" class="btn btn-primary">Ir al sitio</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 my-3">
+                <div class="card" style="width: 100%;">
+                  <img class="card-img-top" src="https://getuikit.com/v2/docs/images/placeholder_600x400.svg" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">app 4</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{% url 'App_4' %}" class="btn btn-primary">Ir al sitio</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 my-3">
+                <div class="card" style="width: 100%;">
+                  <img class="card-img-top" src="https://getuikit.com/v2/docs/images/placeholder_600x400.svg" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">app 5</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{% url 'App_5' %}" class="btn btn-primary">Ir al sitio</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 my-3">
+                <div class="card" style="width: 100%;">
+                  <img class="card-img-top" src="https://getuikit.com/v2/docs/images/placeholder_600x400.svg" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">app 6</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{% url 'App_6' %}" class="btn btn-primary">Ir al sitio</a>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      </div><!--/row-->
+    </div>
+    </body>
+</html>

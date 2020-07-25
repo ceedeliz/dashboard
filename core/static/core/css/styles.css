@@ -1,0 +1,259 @@
+
+
+        table
+        {
+            border: 1px solid #ccc;
+        }
+        table th
+        {
+            background-color: #F7F7F7;
+            color: #333;
+            font-weight: bold;
+        }
+        table th, table td
+        {
+            padding: 5px;
+            border-color: #ccc;
+        }
+
+
+
+    .margin-idx{
+        margin-top: 20px;
+    }
+    .cont-verde, .cont-verde-cont{
+        width: 100%;
+        margin-bottom: 5px;
+        background: rgba(96, 135, 65, 0.15);
+        height: 140px;
+
+    }
+
+    .panel_resultados .cont-verde{
+        height: 160px;
+    }
+    .cont-verde p {
+        display: block;
+        padding: 15px;
+        font-size: .65em;
+    }
+    .cont-idx-1{
+        height: 100px;
+    }
+
+    .cont-verde.cont-idx-1{
+        height: 90px;
+    }
+    .col-izq{
+        background: white;
+    }
+    .col-der{
+
+        }
+    h2{
+        font-size: 1.5em;
+    color: #b20c14;
+    }
+    h1,h2{
+        text-align: center;
+    }
+    h4{
+        font-size: 1em;
+    }
+    h3{
+        width: 100%;
+        padding: 5px 0;
+        font-size: 1.2em;
+        text-align: center;
+        background: #b20c14;
+        color: white;
+        font-family: arial;
+    }
+    .col-md-6{
+        padding: 4px;
+    }
+    .btn-azul{
+        background:#ec8181;
+        width: 49%;
+        margin-bottom: 5px;
+    }
+    .btn-azul a{
+        text-decoration: none;
+        color: white;
+        display: block;
+        padding: 5px;
+        padding-top: 15px;
+        height: 60px;
+        font-size: .9em;
+        padding-left: 10px;
+    }
+    .botones-excel{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .p-rules{
+        font-size: .8em;
+    }
+    label{
+    }
+    input[type="text"],input[type="number"]{
+        width: 100%;
+    }
+    input[type="range"]{
+
+    }
+     input[type="button"]{
+        border: none;
+        background: rgb(222, 82, 82);
+         width: 100%;
+         height: 100%;
+         color: white;
+         cursor: pointer;
+    }
+    .nota{
+        font-size: .8em;
+        font-weight: bold;
+    }
+
+    .element4{
+        background: none;
+
+        font-weight: normal;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .div4{
+         font-size: .7em;
+        width: 48.5%;
+        margin: 5px 0px;
+        padding: 5px;
+        background: rgba(96, 135, 65, 0.15);
+    }
+    .cont-cafe{
+        width: 100%;
+        height: 100%;
+        background: #A55525;
+
+    }
+    .separador-10{
+        display: flex;
+        flex-wrap: nowrap;
+    }
+    .marcador{
+        width: 10%;
+        text-align: center;
+        font-size: .5em
+    }
+    .extL{
+        font-size: 1em;
+        text-align: left;
+    }
+    .extR{
+        font-size: 1em;
+        text-align: right;
+    }
+
+    .cont-cafe a{
+        display: block;
+        padding-top: 20px;
+        height: 80px;
+        text-align: center;
+        color: white;
+        text-decoration: none;
+        color: white;
+    }
+    .results{
+        margin-top: 10px;
+        float: left;
+        text-align: center;
+        width: 65%;
+    }
+/*    #view_vpn_externalidades, #view_vpn_privado, #view_icb{
+        width: 60%;
+    } */
+    #costos, #plazo, #view_ice, #view_cantidad_ice, #view_beneficios, #plazo_err, #view_ice_err{
+        width: 100%;
+    }
+    div#table_input{
+        overflow: auto;
+    }
+    .element4{
+            font-size: 19px;
+    }
+
+/* SLIDER PROPS */
+    .slider-selection{
+        background: #dee2e6;
+        border: none;
+        box-shadow: none;
+    }
+    .slider-handle.min-slider-handle.round {
+    background: #b20c14;
+}
+    .slider.slider-horizontal{
+        width: 80%;
+        margin-right: 15px;
+    }
+    .btn-submit{
+        color: #fff;
+        background-color:#b40606;
+    }
+    .file-style{
+        margin: 15px 0;
+    }
+
+/* LOADING BAR */
+    div#myItem1{
+        margin: 20px 0;
+        width: 100% !important;
+        height: 20px !important;
+    }
+    .ldBar-label{
+        display: none;
+    }
+input#ejecutar:hover, #ejecutar_tir:hover{
+        background: #751010;
+        cursor: pointer;
+    }
+input#ejecutar {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: #b40606;
+        color: white;
+        font-size: 1.5em;
+    }
+    .app_selected{
+        background: #a4f7ed;
+    }
+    #ejecutar_tir{
+        border: none;
+        background: #b40606;
+        color: white;
+        padding: 10px;
+    }
+#pdfButton{
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 15px 0;
+}
+#generatePDF{
+    width: 50%;
+    height: 40px;
+}
+div#customInputs textarea{
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: 100px;
+    min-height: 100px;
+    max-height: 400px;
+}
+div#customInputs input, div#customInputs textarea{
+    margin: 10px 0;
+    
+}

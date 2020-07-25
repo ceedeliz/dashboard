@@ -1,0 +1,353 @@
+{% extends 'core/base.html' %}
+{%block content%}
+  <div class="row margin-idx">
+      <div class="col-12">
+          <div class="row">
+                          <div class="col-12 message">
+                <div class="text-right" role="alert">
+                    <a href="http://34.227.176.46/" style="font-size: .6em; color: gray; text-align: right;" class="text-right">English site <img src="https://image.flaticon.com/icons/svg/197/197484.svg" width="20px" > </a>                    
+                </div>                
+            </div>
+
+            <div class="col-12" id="table_input"></div>
+            <div class="col-12">
+
+              <div class="row">
+
+            <h1 class="logo-red col-3">Alianza MexicoRedd+</h1>
+            <h1 class="logo-min col-3">Ministerio Alemán</h1>
+                </div>
+
+            <h2><b>Herramienta de análisis Costo-Beneficio </b>para la implementación de medidas de adaptación frente al cambio climático y/o de mitigación de emisiones de GEI</h2>
+              <button class = "header-button" id='display-excel'>Editar online</button>      
+                <div class="col-12 limit-box">
+                <button class = "header-button" id='local-download' >Descargar localmente (CSV)</button>
+                <button class = "header-button" id='local-add-button'>Insertar renglón</button>
+
+                <div id="my"></div>
+                </div>
+            </div>
+              <div id="myItem1"   data-stroke="data:ldbar/res,stripe(#5285f1,#1e52be,1)" data-aspect-ratio="none"></div>
+              {% if messages %}
+            <div class="col-12 message">
+              {%for message in messages %}
+
+                <div class="alert alert-success" role="alert">
+                    {{message}}
+                </div>
+              {% endfor %}
+            </div>
+              {%endif %}
+          </div>
+      </div>
+    <div class="col-lg-4 col-izq">
+        <div class="row" >
+            <div class="botones-excel">
+                <div class="btn-azul">
+                    <a href="http://ecopoliticas.com/downloads/manual_giz2.pdf" target="_blank">
+
+                        Descarga manual </a>
+                </div>
+                <div class="btn-azul">
+                     <a href="http://www.ecopoliticas.com/downloads/CB_latest2.xlsb"> Baja versión de excel</a>
+                </div>
+            </div>
+            <div class="col-12 cont-verde">
+            <p>NOTAS: VPN - Valor Presente Neto; ICB - índice Costo Beneficio; FAE - Flujo Anual Equivalente, ICE - índice Costo Efectividad; TIR - Tasa Interna de Retorno, mdp - millones de pesos; APP - Asociación Público Privada</p>
+            </div>
+            <div class="col-12 p-rules">
+                <p>
+                Para generar un análisis costo-beneficio social con este sistema, usted necesita contar con un archivo de texto que contenga:</p>
+                    <p>- Costos desglosados de su proyecto</p>
+                    <p>- Cuantificación monetaria de los beneficios del proyecto
+                </p>
+            </div>
+                    <div class="col-12">
+                    <h4>Fecha de inicio</h4>
+                    <input type="text" class="fecha_inicio" value="ene-2016" id="fecha_inicio" required>
+                    </div>
+                    <div class="col-12">
+                    <span>
+                    NOTA: Utilice el formato mmm-aaaa, donde mmm son las primeras 3 letras del mes y aaaa los 4 dígitos del año
+
+                    </span>
+                    </div>
+                    <div class="col-12">
+                    <h4>Rondas</h4>
+                    <input type="number" value="1000" class="rondas" id="rondas">
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="col-12 file-style">
+                        <form method="POST" class="post-form" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                        <button type="submit" class="btn btn-submit" >Preparar archivo</button>
+                        </form>
+                    </div>
+
+                    <div class="col-12">
+
+                    <h4>Tasa de descuento min</h4><br>
+                    <input id="ex1" type="text" data-slider-min="0" data-slider-max="1" data-slider-step=".01" data-slider-value=".04" class="custom-range td">
+                    <span id="ex1CurrentSliderValLabel"><span id="ex1SliderVal"> .04</span></span>
+                    </div>
+                    <div class="col-12">
+                    <h4>Tasa de descuento base</h4><br>
+                    <input id="ex2" type="text" data-slider-min="0" data-slider-max="1" data-slider-step=".01" data-slider-value=".1" class="custom-range td">
+                    <span id="ex2CurrentSliderValLabel"><span id="ex2SliderVal"> .10</span></span>
+                    </div>
+                    <div class="col-12">
+                    <h4>Tasa de descuento max</h4><br>
+                    <input id="ex3" type="text" data-slider-min="0" data-slider-max="1" data-slider-step=".01" data-slider-value=".20" class="custom-range td">
+                    <span id="ex3CurrentSliderValLabel"><span id="ex3SliderVal"> .20</span></span>
+                    </div>
+                    <div class="col-12">
+                        <br>
+                        <h4>TIR</h4><br>
+                        <input type="radio" name="tir" value="false" checked><label>No calcular TIR</label>
+                        <br>
+                        <input type="radio" class="tirb" name="tir" id="tir" value="true"><label>Calcular TIR</label><br>
+                    </div>
+            <!--
+                    <div class="col-12">
+                        <br>
+                        <br>
+
+                        <h4>Distribución</h4><br>
+                        <input type="radio" class="tirb" name="distribucion" id="tir" value="true" checked><label>Gauss</label><br>
+                        <input type="radio" name="distribucion" value="false"><label>Weibull</label>
+                    </div>
+                        -->
+                    <div class="col-12">
+                        <br>
+
+                        <h4>Monte Carlo</h4>
+                        <br>
+                        <input type="number" class="monte" value="1986" id="monte_carlo">
+                    <span  class="nota">
+                        NOTA: Si quiere diferentes resultados elija un número diferente al que aparece en el campo "Monte Carlo". Puede elegir el número que usted desee.
+                    </span>
+                        <br>
+                        <br>
+                    <p>
+                    Si requiere un ejemplo de un archivo .csv puede primero bajar el archivo <a href="http://ecopoliticas.com/cb_ejemplo2.csv">cb_ejemplo2.csv</a> y después subir el archivo.</p>
+                        <p>
+                    Si desea crear un archivo en este <a href="http://goo.gl/yAtaSg" target="_blank">link</a> puede generarlo a partir de menús de ayuda.
+                    </p>
+
+                    </div>
+                    <br>
+                    <br>
+<!--
+                    <div class="col-12">
+                        <input type="checkbox"> <label>Encabezado</label>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="col-12">
+                        <h4>Separador</h4>
+                        <input type="radio" name="separador" id="sep1"> <label> Coma</label>  <br>
+                        <input type="radio" name="separador" id="sep2"> <label> Punto y coma</label><br>
+                        <input type="radio" name="separador" id="sep3"> <label> Tab</label>
+                    </div>
+                    <div class="col-12">
+                        <h4>Entrecomillar</h4>
+                        <input type="radio" name="comillar" id="quote1"> <label> Ninguna</label>       <br>
+                        <input type="radio" name="comillar" id="quote2"> <label> Comillas(doble)</label>  <br>
+                        <input type="radio" name="comillar" id="quote3"> <label> Comillas(una)</label>
+                    </div>
+-->
+        </div>
+    </div>
+    <div class="col-lg-8 col-der">
+
+      <div class="row panel_resultados">
+          <div class="col-md-6">
+              <div class="cont-verde cont-idx-1">
+                  <p>
+              Para mostrar un ejemplo del análisis oprima el botón “Ejecutar”. Si usted ya cuenta con los datos de su proyecto suba el archivo en el botón “seleccionar archivo” y después haga clic en el botón “Ejecutar”
+                </p>
+              </div>
+          </div>
+          <div class="col-md-6">
+                      <form method="post" enctype="multipart/form-data" action="/cb_final/" id="execute_method">
+                {% csrf_token %}
+
+              <div class="cont-verde cont-idx-1">
+            <input type="submit" value="Ejecutar" class="ejecutar" id="ejecutar" style="display: {{ display }}">
+              </div>
+              </form>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde" >
+                <h3 class="vpn_social_title_1">VPN SOCIAL</h3>
+              <span class="marcadorNP marcadorNP_vpn1"></span>
+              <span class="results" id="view_vpn_social_1"> </span>
+              <span class="results" id="view_vpn_social_1_std"> </span>
+
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde" >
+                <h3 class="vpn_social_title_2">VPN SOCIAL</h3>
+              <span class="marcadorNP marcadorNP_vpn2"></span>
+        <span class="results" id="view_vpn_social_2"> </span>
+        <span class="results" id="view_vpn_social_2_std"> </span>
+
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3 class="vpn_social_title_3">VPN SOCIAL</h3>
+                  <span class="marcadorNP marcadorNP_vpn3"></span>
+                <span class="results"  id="view_vpn_social_3"> </span>
+              <span class="results" id="view_vpn_social_3_std"> </span>
+
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3 class="vpn_externalidades_title">VPN de externalidades</h3>
+              <span class="marcadorNP marcadorNP_extern"></span>
+              <span class="results" id="view_vpn_externalidades"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3 class="vpn_priv_title_1">VPN privado</h3>
+              <span class="marcadorNP marcadorNP_priv"></span>
+              <span class="results"  id="view_vpn_privado"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3 class="costos_title">Costos</h3>
+                <span class="results"  id="costos"> </span>
+                <span class="results"  id="costos_err"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde" >
+                <h3 class="beneficios_title">Beneficios</h3>
+                <span class="results" id="view_beneficios"> </span>
+                <span class="results" id="view_beneficios_err"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3 class="icb_title">ICB</h3>
+                <span class="marcadorNP marcadorNP_icb"></span>
+                <span class="results" id="view_icb"> </span>
+                <span class="results" id="view_icb_err"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3 class="fae_title_1">FAE</h3>
+                <span class="marcadorNP marcadorNP_fae1"></span>
+                <span class="results"  id="view_fae_1"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3 class="fae_title_2">FAE</h3>
+                <span class="marcadorNP marcadorNP_fae2"></span>
+                <span class="results"  id="view_fae_2"> </span>
+              </div>
+          </div>
+          <div class="col-md-6" >
+              <div class="cont-verde">
+                <h3 class="fae_title_3">FAE</h3>
+                <span class="marcadorNP marcadorNP_fae3"></span>
+                <span class="results" id="view_fae_3"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde" >
+                <h3>Plazo</h3>
+                <span class="results" id="plazo"> </span>
+                <span class="results" id="plazo_err"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3>ICE</h3>
+                <span class="results"  id="view_ice"> </span>
+                <span class="results"  id="view_ice_err"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3>Cantidad ICE</h3>
+                <span class="results"  id="view_cantidad_ice"> </span>
+                <span class="results"  id="view_cantidad_err"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde" >
+                <h3 class="vpn_pes_title">VPN pesimista</h3>
+                <span class="marcadorNP marcadorNP_pes"></span>
+                <span class="results" id="view_vpn_pesimista"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde" >
+                <h3 class="vpn_base_title">VPN base</h3>
+               <span class="marcadorNP marcadorNP_base"></span>
+                <span class="results" id="view_vpn_base"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3 class="vpn_opt_title">VPN optimista</h3>
+                <span class="marcadorNP marcadorNP_opt"></span>
+                <span class="results" id="view_vpn_optimista"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3>TIR</h3>
+            <!--
+            <form method="post" enctype="multipart/form-data" action="/calc_tir/" id="calc_tir">
+            {% csrf_token %}
+            <input type="submit" value="Calcular tir" class="ejecutar" id="ejecutar_tir" style="display: {{ display }}">
+            </form> -->
+               <span class="marcadorNP marcadorNP_tir"></span>
+                <span class="results"  id="view_tir"> </span>
+                <span class="results"  id="view_tirs"> </span>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="cont-verde">
+                <h3>% de casos con VPN positivo</h3>
+                <span class="marcadorNP marcadorNP_casos"></span>
+                <span class="results"  id="view_casos_vpn_positivos"> </span>
+              </div>
+          </div>
+          <div class="col-md-6 element4">
+                  <h5 class="div4 view_app_1">APP<br></h5>
+                  <h5 class="div4 view_app_2">Regulación/impuesto<br></h5>
+                  <h5 class="div4 view_app_3">Bien público/subsidio<br></h5>
+                  <h5 class="div4 view_app_4">Inacción<br></h5>
+
+          </div>
+<div class="col-12 resultados">
+    <div class="row">
+    <div class="graficas"></div>
+    <div class="tabla">
+
+    </div>
+    </div>
+</div>
+<div class="col-12">
+
+    <hr>
+</div>
+
+      </div>
+    </div>
+  </div>
+{%endblock%}
