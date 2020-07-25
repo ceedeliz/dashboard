@@ -25,7 +25,7 @@ SECRET_KEY = '0^@w+dlc0b5g33od39mioz%k4&1n1xlm92z!=#$5!##dc7d=zg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["18.208.76.227","localhost","www.acbgiz.org","acbgiz.org","127.0.0.1"]
+ALLOWED_HOSTS = ["3.236.112.231","localhost","www.acbgiz.org","acbgiz.org","127.0.0.1"]
 
 
 # Application definition
